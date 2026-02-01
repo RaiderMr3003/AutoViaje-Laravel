@@ -21,9 +21,20 @@
                     <div class="shrink-0 flex items-center">
                         <span class="text-xl font-semibold tracking-tight">Autoviaje</span>
                     </div>
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <a href="{{ route('home') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-[#f53003] text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                            Inicio
+                        </a>
+                        <a href="{{ route('autorizaciones.create') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Nueva Autorización
+                        </a>
+                    </div>
                 </div>
                 <div class="flex items-center">
-                    <span class="mr-4 text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ Auth::user()->name }}</span>
+                    <span class="mr-4 text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ Auth::user()->username }}</span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
@@ -52,7 +63,7 @@
                                     class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Tipo de
                                     Permiso</label>
                                 <select name="tipo_permiso" id="tipo_permiso"
-                                    class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                                     <option value="">Todos</option>
                                     @foreach($permisos as $permiso)
                                         <option value="{{ $permiso->id_tppermi }}" {{ request('tipo_permiso') == $permiso->id_tppermi ? 'selected' : '' }}>
@@ -67,14 +78,14 @@
                                     class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">N°
                                     Cronológico</label>
                                 <input type="text" name="nro_crono" id="nro_crono" value="{{ request('nro_crono') }}"
-                                    class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                             </div>
 
                             <div>
                                 <label for="encargado"
                                     class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Encargado</label>
                                 <input type="text" name="encargado" id="encargado" value="{{ request('encargado') }}"
-                                    class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                             </div>
 
                             <div>
@@ -82,7 +93,7 @@
                                     class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Participante</label>
                                 <input type="text" name="nombre_participante" id="nombre_participante"
                                     value="{{ request('nombre_participante') }}"
-                                    class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                             </div>
 
                             <div class="grid grid-cols-2 gap-2">
@@ -91,14 +102,14 @@
                                         class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Desde</label>
                                     <input type="date" name="fecha_min" id="fecha_min"
                                         value="{{ request('fecha_min') }}"
-                                        class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                        class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                                 </div>
                                 <div>
                                     <label for="fecha_max"
                                         class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Hasta</label>
                                     <input type="date" name="fecha_max" id="fecha_max"
                                         value="{{ request('fecha_max') }}"
-                                        class="w-full px-3 py-2 bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none">
+                                        class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm focus:ring-2 focus:ring-[#f53003] dark:focus:ring-[#FF4433] focus:outline-none dark:text-[#EDEDEC]">
                                 </div>
                             </div>
 
@@ -145,7 +156,8 @@
                                         <tr class="hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1C] transition-colors group">
                                             <td class="px-6 py-4 font-medium">{{ $auth->nro_kardex }}</td>
                                             <td class="px-6 py-4 text-[#706f6c] dark:text-[#A1A09A] first-letter:uppercase">
-                                                {{ strtolower($auth->encargado) }}</td>
+                                                {{ strtolower($auth->encargado) }}
+                                            </td>
                                             <td class="px-6 py-4">
                                                 @if($auth->personas->count() > 0)
                                                     <ul
@@ -171,7 +183,7 @@
                                                 {{ \Carbon\Carbon::parse($auth->fecha_ingreso)->format('d/m/Y') }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <a href="#"
+                                                <a href="{{ route('autorizaciones.edit', $auth->id_autorizacion) }}"
                                                     class="text-[#f53003] hover:text-[#d92a02] font-medium transition-colors">Editar</a>
                                             </td>
                                         </tr>

@@ -23,4 +23,12 @@ Route::middleware('auth')->group(function () {
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Autorizaciones
+    Route::resource('autorizaciones', \App\Http\Controllers\AutorizacionController::class)->except(['show', 'destroy']);
+    Route::post('/autorizaciones/{id}/participantes', [\App\Http\Controllers\AutorizacionController::class, 'addParticipant'])->name('autorizaciones.addParticipant');
+    Route::delete('/autorizaciones/{id}/participantes/{persona_id}', [\App\Http\Controllers\AutorizacionController::class, 'removeParticipant'])->name('autorizaciones.removeParticipant');
+
+    // Personas Buscar
+    Route::get('/personas/search/{num_doc}', [\App\Http\Controllers\AutorizacionController::class, 'searchPersona'])->name('personas.search');
 });

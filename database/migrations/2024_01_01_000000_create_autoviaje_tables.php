@@ -127,6 +127,17 @@ return new class extends Migration {
                 $table->index('id_persona');
             });
         }
+
+        if (!Schema::hasTable('representantes')) {
+            Schema::create('representantes', function (Blueprint $table) {
+                $table->id('id_representante_rel');
+                $table->integer('id_representante');
+                $table->integer('id_representado');
+
+                $table->index('id_representante');
+                $table->index('id_representado');
+            });
+        }
     }
 
     /**
@@ -134,6 +145,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('representantes');
         Schema::dropIfExists('personas_autorizaciones');
         Schema::dropIfExists('autorizaciones');
         Schema::dropIfExists('personas');

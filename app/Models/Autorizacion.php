@@ -41,6 +41,6 @@ class Autorizacion extends Model
     public function personas()
     {
         return $this->belongsToMany(Persona::class, 'personas_autorizaciones', 'id_autorizacion', 'id_persona')
-            ->withPivot('id_tp_relacion');
+            ->withPivot('id_tp_relacion', 'firma');
     }
 }

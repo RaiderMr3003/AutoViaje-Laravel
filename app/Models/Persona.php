@@ -29,6 +29,22 @@ class Persona extends Model
     public function autorizaciones()
     {
         return $this->belongsToMany(Autorizacion::class, 'personas_autorizaciones', 'id_persona', 'id_autorizacion')
-            ->withPivot('id_tp_relacion');
+            ->withPivot('id_tp_relacion', 'firma');
+    }
+
+    /**
+     * Personas representadas por esta persona.
+     */
+    public function representados()
+    {
+        return $this->belongsToMany(Persona::class, 'representantes', 'id_representante', 'id_representado');
+    }
+
+    /**
+     * Personas que representan a esta persona.
+     */
+    public function representantes()
+    {
+        return $this->belongsToMany(Persona::class, 'representantes', 'id_representado', 'id_representante');
     }
 }

@@ -24,4 +24,9 @@ class Ubigeo extends Model
         'cod_prov',
         'cod_dpto'
     ];
+
+    public function getFullLocationAttribute()
+    {
+        return "{$this->nom_dis} / {$this->nom_prov} / {$this->nom_dpto}";
+    }
 }
