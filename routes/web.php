@@ -3,21 +3,26 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+// Rutas Públicas / Redirección Inicial
 Route::get('/', function () {
     return auth()->check()
-        ? redirect('/home')
-        : redirect('/login');
+        ? redirect()->route('home')
+        : redirect()->route('login');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+// Rutas de Autenticación
+Route::middleware('guest')->controller(AuthController::class)->group(function () {
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+// Rutas Protegidas
 Route::middleware('auth')->group(function () {
+    // Home
     Route::get('/home', function () {
         return view('Pages.home');
-    });
+    })->name('home');
+
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
