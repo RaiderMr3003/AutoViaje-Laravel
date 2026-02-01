@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nombre',
         'fecha_nacimiento',
         'activo',
+        'es_admin',
     ];
 
     /**
@@ -46,6 +47,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'fecha_nacimiento' => 'date',
             'activo' => 'boolean',
+            'es_admin' => 'boolean',
         ];
     }
 }

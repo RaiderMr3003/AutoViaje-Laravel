@@ -39,4 +39,9 @@ Route::middleware('auth')->group(function () {
 
     // Documentos Word
     Route::get('/autorizaciones/{id}/download-word', [\App\Http\Controllers\DocumentoController::class, 'descargar'])->name('autorizaciones.documento');
+
+    // Gestión de Usuarios (Sólo Admin)
+    Route::middleware('admin')->group(function () {
+        Route::resource('users', \App\Http\Controllers\UserController::class);
+    });
 });

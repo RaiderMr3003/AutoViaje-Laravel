@@ -40,6 +40,12 @@
                             class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
                             Exportar
                         </a>
+                        @if(auth()->user()->es_admin)
+                            <a href="{{ route('users.index') }}"
+                                class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                                Usuarios
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <div class="flex items-center">
