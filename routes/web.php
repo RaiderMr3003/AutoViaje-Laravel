@@ -19,9 +19,7 @@ Route::middleware('guest')->controller(AuthController::class)->group(function ()
 // Rutas Protegidas
 Route::middleware('auth')->group(function () {
     // Home
-    Route::get('/home', function () {
-        return view('Pages.home');
-    })->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
