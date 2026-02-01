@@ -10,10 +10,10 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* Global Uppercase for Forms */
-input[type="text"],
-input[type="search"],
-textarea {
+/* Global Uppercase for Forms (Excluded on Login Page) */
+body:not(.login-page) input[type="text"],
+body:not(.login-page) input[type="search"],
+body:not(.login-page) textarea {
     text-transform: uppercase;
 }
 

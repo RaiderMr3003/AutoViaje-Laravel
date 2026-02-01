@@ -7,8 +7,10 @@ window.Swal = Swal;
 
 Alpine.start();
 
-// Global Uppercase Transformation for inputs
+// Global Uppercase Transformation for inputs (Excluded on Login Page)
 document.addEventListener('input', (event) => {
+    if (document.body.classList.contains('login-page')) return;
+
     if (event.target.tagName === 'INPUT' && (event.target.type === 'text' || event.target.type === 'search') || event.target.tagName === 'TEXTAREA') {
         const start = event.target.selectionStart;
         const end = event.target.selectionEnd;
