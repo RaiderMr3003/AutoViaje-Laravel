@@ -18,9 +18,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <div class="shrink-0 flex items-center">
-                        <a href="{{ route('home') }}"
-                            class="text-xl font-semibold tracking-tight hover:text-[#f53003] transition-colors">Autoviaje</a>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <a href="{{ route('home') }}" class="flex items-center gap-2 group transition-all">
+                            <img src="{{ asset('img/logo.svg') }}" class="h-8 w-auto dark:hidden" alt="Logo">
+                            <img src="{{ asset('img/logo-dark.svg') }}" class="h-8 w-auto hidden dark:block" alt="Logo">
+                            <span
+                                class="text-xl font-semibold tracking-tight group-hover:text-[#f53003] transition-colors">Autoviaje</span>
+                        </a>
                     </div>
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

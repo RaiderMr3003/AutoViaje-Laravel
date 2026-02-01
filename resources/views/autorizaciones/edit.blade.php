@@ -18,9 +18,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <div class="shrink-0 flex items-center">
-                        <a href="{{ route('home') }}"
-                            class="text-xl font-semibold tracking-tight hover:text-[#f53003] transition-colors">Autoviaje</a>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <a href="{{ route('home') }}" class="flex items-center gap-2 group transition-all">
+                            <img src="{{ asset('img/logo.svg') }}" class="h-8 w-auto dark:hidden" alt="Logo">
+                            <img src="{{ asset('img/logo-dark.svg') }}" class="h-8 w-auto hidden dark:block" alt="Logo">
+                            <span
+                                class="text-xl font-semibold tracking-tight group-hover:text-[#f53003] transition-colors">Autoviaje</span>
+                        </a>
                     </div>
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -56,23 +60,7 @@
     <main class="flex-grow py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-            @if(session('success'))
-                <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-4 py-3 rounded relative"
-                    role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            @if($errors->any())
-                <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded relative"
-                    role="alert">
-                    <ul class="list-disc pl-5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('partials.alerts')
 
             <!-- Edit Form Card -->
             <div
@@ -83,7 +71,7 @@
                         #{{ $autorizacion->nro_kardex }}</h2>
                     <div class="flex items-center gap-4">
                         <a href="{{ route('autorizaciones.documento', $autorizacion->id_autorizacion) }}"
-                            class="inline-flex items-center px-3 py-1.5 bg-[#4B4B4B] hover:bg-[#333333] text-white text-xs font-medium rounded-md shadow-sm transition-colors">
+                            class="inline-flex items-center px-3 py-1.5 bg-[#005bed] hover:bg-[#005bed73] text-white text-xs font-medium rounded-md shadow-sm transition-colors">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -401,7 +389,8 @@
                         }
                     });
                 }
-            }" class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
+            }"
+                class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
                 <div
                     class="px-6 py-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] bg-[#FAFAFA] dark:bg-[#1C1C1C] flex justify-between items-center">
                     <h2 class="text-lg font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Participantes</h2>
