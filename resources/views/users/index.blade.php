@@ -12,34 +12,44 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex flex-col min-h-screen font-sans antialiased">
+<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-[#EDEDEC] font-sans antialiased min-h-screen flex flex-col">
     @include('partials.alerts')
 
     <!-- Top Navigation -->
-    <nav class="bg-white dark:bg-[#161615] border-b border-[#e3e3e0] dark:border-[#3E3E3A] sticky top-0 z-40">
+    <nav class="border-b border-[#e3e3e0] dark:border-[#3E3E3A] bg-white dark:bg-[#161615]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex items-center gap-8">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                        <img src="{{ asset('img/logo.svg') }}" alt="Logo"
-                            class="h-8 w-auto dark:hidden transition-transform group-hover:scale-105">
-                        <img src="{{ asset('img/logo-dark.svg') }}" alt="Logo"
-                            class="h-8 w-auto hidden dark:block transition-transform group-hover:scale-105">
-                        <span
-                            class="text-lg font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] group-hover:text-[#f53003] dark:group-hover:text-[#FF4433] transition-colors">Autoviaje</span>
-                    </a>
-                    <div class="hidden sm:flex sm:space-x-8 h-full">
+                <div class="flex">
+                    <div class="shrink-0 flex items-center gap-3">
+                        <a href="{{ route('home') }}" class="flex items-center gap-2 group transition-all">
+                            <img src="{{ asset('img/logo.svg') }}" class="h-8 w-auto dark:hidden" alt="Logo">
+                            <img src="{{ asset('img/logo-dark.svg') }}" class="h-8 w-auto hidden dark:block" alt="Logo">
+                            <span
+                                class="text-xl font-semibold tracking-tight group-hover:text-[#f53003] transition-colors">Autoviaje</span>
+                        </a>
+                    </div>
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <a href="{{ route('home') }}"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:border-[#e3e3e0] dark:hover:border-[#3E3E3A] transition-colors">Inicio</a>
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Inicio
+                        </a>
+                        <a href="{{ route('autorizaciones.create') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Nueva Autorización
+                        </a>
                         <a href="{{ route('exportar.index') }}"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:border-[#e3e3e0] dark:hover:border-[#3E3E3A] transition-colors">Exportar</a>
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Exportar
+                        </a>
                         @if(auth()->user()->es_admin)
                             <a href="{{ route('users.index') }}"
-                                class="inline-flex items-center px-1 pt-1 border-b-2 border-[#f53003] text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Usuarios</a>
+                                class="inline-flex items-center px-1 pt-1 border-b-2 border-[#f53003] text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                                Usuarios
+                            </a>
                         @endif
                     </div>
                 </div>
-                <!-- User dropdown placeholder - Use same as home.blade.php -->
                 <div class="flex items-center">
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open"
