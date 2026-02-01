@@ -26,6 +26,26 @@ class Persona extends Model
         'es_menor',
     ];
 
+    public function setNombresAttribute($value)
+    {
+        $this->attributes['nombres'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setApellidosAttribute($value)
+    {
+        $this->attributes['apellidos'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setDireccionAttribute($value)
+    {
+        $this->attributes['direccion'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setTipoEdadAttribute($value)
+    {
+        $this->attributes['tipo_edad'] = mb_strtoupper($value, 'UTF-8');
+    }
+
     public function autorizaciones()
     {
         return $this->belongsToMany(Autorizacion::class, 'personas_autorizaciones', 'id_persona', 'id_autorizacion')

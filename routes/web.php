@@ -27,8 +27,16 @@ Route::middleware('auth')->group(function () {
     // Autorizaciones
     Route::resource('autorizaciones', \App\Http\Controllers\AutorizacionController::class)->except(['show', 'destroy']);
     Route::post('/autorizaciones/{id}/participantes', [\App\Http\Controllers\AutorizacionController::class, 'addParticipant'])->name('autorizaciones.addParticipant');
+    Route::put('/autorizaciones/{id}/participantes/{persona_id}', [\App\Http\Controllers\AutorizacionController::class, 'updateParticipant'])->name('autorizaciones.updateParticipant');
     Route::delete('/autorizaciones/{id}/participantes/{persona_id}', [\App\Http\Controllers\AutorizacionController::class, 'removeParticipant'])->name('autorizaciones.removeParticipant');
 
     // Personas Buscar
     Route::get('/personas/search/{num_doc}', [\App\Http\Controllers\AutorizacionController::class, 'searchPersona'])->name('personas.search');
+
+    // Exportar
+    Route::get('/exportar', [\App\Http\Controllers\ExportController::class, 'index'])->name('exportar.index');
+    Route::get('/exportar/download', [\App\Http\Controllers\ExportController::class, 'export'])->name('exportar.download');
+
+    // Documentos Word
+    Route::get('/autorizaciones/{id}/download-word', [\App\Http\Controllers\DocumentoController::class, 'descargar'])->name('autorizaciones.documento');
 });

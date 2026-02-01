@@ -6,3 +6,13 @@ window.Alpine = Alpine;
 window.Swal = Swal;
 
 Alpine.start();
+
+// Global Uppercase Transformation for inputs
+document.addEventListener('input', (event) => {
+    if (event.target.tagName === 'INPUT' && (event.target.type === 'text' || event.target.type === 'search') || event.target.tagName === 'TEXTAREA') {
+        const start = event.target.selectionStart;
+        const end = event.target.selectionEnd;
+        event.target.value = event.target.value.toUpperCase();
+        event.target.setSelectionRange(start, end);
+    }
+});

@@ -32,6 +32,10 @@
                             class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
                             Nueva Autorización
                         </a>
+                        <a href="{{ route('exportar.index') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Exportar
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -71,12 +75,24 @@
             @endif
 
             <!-- Edit Form Card -->
-            <div class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+            <div
+                class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
                 <div
                     class="px-6 py-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] bg-[#FAFAFA] dark:bg-[#1C1C1C] flex justify-between items-center">
                     <h2 class="text-lg font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Editar Autorización
                         #{{ $autorizacion->nro_kardex }}</h2>
-                    <span class="text-xs text-[#706f6c]">Creado: {{ $autorizacion->fecha_ingreso }}</span>
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('autorizaciones.documento', $autorizacion->id_autorizacion) }}"
+                            class="inline-flex items-center px-3 py-1.5 bg-[#4B4B4B] hover:bg-[#333333] text-white text-xs font-medium rounded-md shadow-sm transition-colors">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Descargar Word
+                        </a>
+                        <span class="text-xs text-[#706f6c]">Creado:
+                            {{ $autorizacion->fecha_ingreso->format('d/m/Y') }}</span>
+                    </div>
                 </div>
 
                 <form action="{{ route('autorizaciones.update', $autorizacion->id_autorizacion) }}" method="POST"
@@ -117,8 +133,8 @@
                                 class="block text-sm font-medium mb-1 text-[#706f6c] dark:text-[#A1A09A]">Fecha de
                                 Ingreso</label>
                             <input type="date" name="fecha_ingreso" id="fecha_ingreso"
-                                value="{{ $autorizacion->fecha_ingreso }}" disabled
-                                class="w-full px-3 py-2 bg-[#f5f5f5] dark:bg-[#2C2C2C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm text-[#a1a09a] cursor-not-allowed">
+                                value="{{ $autorizacion->fecha_ingreso->format('Y-m-d') }}" disabled
+                                class="w-full px-3 py-2 bg-[#f5f5f5] dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm text-[#a1a09a] dark:text-[#555555] cursor-not-allowed">
                         </div>
                         <div>
                             <label for="viaja_a"
@@ -265,7 +281,7 @@
                         <a href="{{ route('home') }}"
                             class="px-4 py-2 border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm font-medium text-[#706f6c] hover:bg-[#FDFDFC] transition-colors">Cancelar</a>
                         <button type="submit"
-                            class="px-4 py-2 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#161615] rounded-md text-sm font-medium hover:bg-black dark:hover:bg-white transition-colors">
+                            class="cursor-pointer px-4 py-2 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#161615] rounded-md text-sm font-medium hover:bg-black dark:hover:bg-white transition-colors">
                             Actualizar
                         </button>
                     </div>
@@ -275,6 +291,8 @@
             <!-- Participantes Section -->
             <div x-data="{ 
                 openModal: false, 
+                editMode: false,
+                participantId: null,
                 condicion: '', 
                 enRepresentacion: false,
                 numdoc: '',
@@ -285,6 +303,38 @@
                 nacionalidad: '',
                 ubigeo: '',
                 direccion: '',
+                firma: 'HUELLA',
+                resetModal() {
+                    this.editMode = false;
+                    this.participantId = null;
+                    this.numdoc = '';
+                    this.nombre = '';
+                    this.apellido = '';
+                    this.edad = '';
+                    this.tipoEdad = 'AÑO(S)';
+                    this.condicion = '';
+                    this.enRepresentacion = false;
+                    this.ubigeo = '';
+                    this.direccion = '';
+                    this.firma = 'HUELLA';
+                    this.nacionalidad = '';
+                },
+                editParticipant(p) {
+                    this.resetModal();
+                    this.editMode = true;
+                    this.participantId = p.id_persona;
+                    this.numdoc = p.num_doc;
+                    this.nombre = p.nombres;
+                    this.apellido = p.apellidos;
+                    this.edad = p.edad;
+                    this.tipoEdad = p.tipo_edad || 'AÑO(S)';
+                    this.condicion = p.pivot.id_tp_relacion;
+                    this.firma = p.pivot.firma;
+                    this.ubigeo = p.id_ubigeo || '';
+                    this.direccion = p.direccion || '';
+                    this.nacionalidad = p.id_nacionalidad || '';
+                    this.openModal = true;
+                },
                 async searchPersona() {
                     if (!this.numdoc) return;
                     try {
@@ -333,14 +383,30 @@
                             timerProgressBar: true
                         });
                     }
+                },
+                confirmDelete(id) {
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'Esta acción desvinculará al participante de esta autorización.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#1b1b18',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById(`delete-form-${id}`).submit();
+                        }
+                    });
                 }
-            }" class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+            }" class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
                 <div
                     class="px-6 py-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] bg-[#FAFAFA] dark:bg-[#1C1C1C] flex justify-between items-center">
                     <h2 class="text-lg font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Participantes</h2>
-                    <button
-                        @click="openModal = true; numdoc = ''; nombre = ''; apellido = ''; edad = ''; condicion = ''; enRepresentacion = false; ubigeo = ''; direccion = '';"
-                        class="px-3 py-1.5 bg-[#f53003] text-white text-xs font-medium rounded-md hover:bg-[#d92a02] transition-colors">
+                    <button @click="resetModal(); openModal = true;"
+                        class="px-3 py-1.5 bg-[#f53003] text-white text-xs font-medium rounded-md hover:bg-[#d92a02] transition-colors cursor-pointer">
                         Añadir Participante
                     </button>
                 </div>
@@ -382,14 +448,32 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <form
-                                            action="{{ route('autorizaciones.removeParticipant', ['id' => $autorizacion->id_autorizacion, 'persona_id' => $persona->id_persona]) }}"
-                                            method="POST" onsubmit="return confirm('¿Eliminar participante?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="text-red-500 hover:text-red-700 font-medium text-xs">Eliminar</button>
-                                        </form>
+                                        <div class="flex justify-end items-center gap-3">
+                                            <button @click="editParticipant({{ json_encode($persona) }})"
+                                                class="text-blue-500 hover:text-blue-700 transition-colors cursor-pointer"
+                                                title="Editar Participante">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </button>
+                                            <form id="delete-form-{{ $persona->id_persona }}"
+                                                action="{{ route('autorizaciones.removeParticipant', ['id' => $autorizacion->id_autorizacion, 'persona_id' => $persona->id_persona]) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" @click="confirmDelete('{{ $persona->id_persona }}')"
+                                                    class="text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+                                                    title="Eliminar Participante">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -426,20 +510,21 @@
                                 class="relative transform overflow-hidden rounded-lg bg-white dark:bg-[#161615] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-[#e3e3e0] dark:border-[#3E3E3A]">
 
                                 <form
-                                    action="{{ route('autorizaciones.addParticipant', $autorizacion->id_autorizacion) }}"
+                                    :action="editMode ? '{{ route('autorizaciones.updateParticipant', ['id' => $autorizacion->id_autorizacion, 'persona_id' => ':id']) }}'.replace(':id', participantId) : '{{ route('autorizaciones.addParticipant', $autorizacion->id_autorizacion) }}'"
                                     method="POST">
                                     @csrf
+                                    <input type="hidden" name="_method" :value="editMode ? 'PUT' : 'POST'">
                                     <div class="bg-white dark:bg-[#161615] px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                        <h3
-                                            class="text-lg leading-6 font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-4">
-                                            Añadir Participante</h3>
+                                        <h3 class="text-lg leading-6 font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-4"
+                                            x-text="editMode ? 'Editar Participante' : 'Añadir Participante'">
+                                        </h3>
 
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <label class="block text-xs font-medium mb-1 text-[#706f6c]">Tipo
                                                     Documento</label>
-                                                <select name="documento_persona"
-                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC]">
+                                                <select name="documento_persona" :disabled="editMode"
+                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC] disabled:bg-[#f5f5f5] dark:disabled:bg-[#1a1a19] disabled:text-[#a1a09a] dark:disabled:text-[#555555] disabled:cursor-not-allowed">
                                                     @foreach($tiposDocumento as $doc)
                                                         <option value="{{ $doc->id_tpdoc }}">{{ $doc->des_tpdoc }}</option>
                                                     @endforeach
@@ -450,9 +535,10 @@
                                                     Documento</label>
                                                 <div class="flex gap-2">
                                                     <input type="text" name="numdoc_persona" required x-model="numdoc"
-                                                        class="flex-grow px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC]">
-                                                    <button type="button" @click="searchPersona()"
-                                                        class="px-3 py-2 bg-[#f53003] hover:bg-[#d92a02] text-white rounded-md text-xs transition-colors">
+                                                        :disabled="editMode"
+                                                        class="flex-grow px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC] disabled:bg-[#f5f5f5] dark:disabled:bg-[#1a1a19] disabled:text-[#a1a09a] dark:disabled:text-[#555555] disabled:cursor-not-allowed">
+                                                    <button type="button" @click="searchPersona()" x-show="!editMode"
+                                                        class="px-3 py-2 bg-[#f53003] hover:bg-[#d92a02] text-white rounded-md text-xs transition-colors cursor-pointer">
                                                         Buscar
                                                     </button>
                                                 </div>
@@ -461,13 +547,15 @@
                                                 <label
                                                     class="block text-xs font-medium mb-1 text-[#706f6c]">Nombres</label>
                                                 <input type="text" name="nombre_persona" required x-model="nombre"
-                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC]">
+                                                    :disabled="editMode"
+                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC] disabled:bg-[#f5f5f5] dark:disabled:bg-[#1a1a19] disabled:text-[#a1a09a] dark:disabled:text-[#555555] disabled:cursor-not-allowed">
                                             </div>
                                             <div>
                                                 <label
                                                     class="block text-xs font-medium mb-1 text-[#706f6c]">Apellidos</label>
                                                 <input type="text" name="apellido_persona" required x-model="apellido"
-                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC]">
+                                                    :disabled="editMode"
+                                                    class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC] disabled:bg-[#f5f5f5] dark:disabled:bg-[#1a1a19] disabled:text-[#a1a09a] dark:disabled:text-[#555555] disabled:cursor-not-allowed">
                                             </div>
 
                                             <div>
@@ -485,11 +573,12 @@
                                             <div>
                                                 <label
                                                     class="block text-xs font-medium mb-1 text-[#706f6c]">Firma</label>
-                                                <select name="firma" required
+                                                <select name="firma" required x-model="firma"
                                                     class="w-full px-3 py-2 bg-transparent dark:bg-[#1C1C1C] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm dark:text-[#EDEDEC]">
                                                     <option value="">Seleccione</option>
                                                     <option value="SI">SI</option>
                                                     <option value="NO">NO</option>
+                                                    <option value="HUELLA">HUELLA</option>
                                                 </select>
                                             </div>
                                             <div>
@@ -568,13 +657,13 @@
                                         </div>
                                     </div>
                                     <div
-                                        class="bg-[#FAFAFA] dark:bg-[#1C1C1C] px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
+                                        class="bg-[#FAFAFA] dark:bg-[#1C1C1C] px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-[#e3e3e0] dark:border-[#3E3E3A] gap-3">
                                         <button type="submit"
-                                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#1b1b18] text-base font-medium text-white hover:bg-black focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                            class="cursor-pointer w-full sm:w-auto px-4 py-2 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#161615] rounded-md text-sm font-medium hover:bg-black dark:hover:bg-white transition-colors duration-200">
                                             Guardar
                                         </button>
                                         <button type="button" @click="openModal = false"
-                                            class="mt-3 w-full inline-flex justify-center rounded-md border border-[#e3e3e0] shadow-sm px-4 py-2 bg-white text-base font-medium text-[#706f6c] hover:bg-[#FDFDFC] focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                            class="cursor-pointer mt-3 sm:mt-0 w-full sm:w-auto px-4 py-2 bg-white dark:bg-transparent border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm font-medium text-[#706f6c] hover:bg-[#FDFDFC] dark:hover:bg-[#1C1C1C] transition-colors duration-200">
                                             Cancelar
                                         </button>
                                     </div>

@@ -9,3 +9,15 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Global Uppercase for Forms */
+input[type="text"],
+input[type="search"],
+textarea {
+    text-transform: uppercase;
+}
+
+input::placeholder,
+textarea::placeholder {
+    text-transform: none;
+}

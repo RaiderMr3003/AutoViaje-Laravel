@@ -11,7 +11,11 @@ class Autorizacion extends Model
 
     protected $table = 'autorizaciones';
     protected $primaryKey = 'id_autorizacion';
-    public $timestamps = false; // Legacy tables usually don't have created_at/updated_at by default
+    public $timestamps = false;
+
+    protected $casts = [
+        'fecha_ingreso' => 'date',
+    ];
 
     protected $fillable = [
         'nro_kardex',
@@ -32,6 +36,51 @@ class Autorizacion extends Model
         'tiempo_viaje',
         'observaciones',
     ];
+
+    public function setEncargadoAttribute($value)
+    {
+        $this->attributes['encargado'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setViajaAAttribute($value)
+    {
+        $this->attributes['viaja_a'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setNombresAcompAttribute($value)
+    {
+        $this->attributes['nombres_acomp'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setApellidosAcompAttribute($value)
+    {
+        $this->attributes['apellidos_acomp'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setNombresRespAttribute($value)
+    {
+        $this->attributes['nombres_resp'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setApellidosRespAttribute($value)
+    {
+        $this->attributes['apellidos_resp'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setAgenciaTransporteAttribute($value)
+    {
+        $this->attributes['agencia_transporte'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setTiempoViajeAttribute($value)
+    {
+        $this->attributes['tiempo_viaje'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setObservacionesAttribute($value)
+    {
+        $this->attributes['observaciones'] = mb_strtoupper($value, 'UTF-8');
+    }
 
     public function tipoPermiso()
     {

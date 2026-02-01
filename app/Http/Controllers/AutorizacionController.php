@@ -242,6 +242,39 @@ class AutorizacionController extends Controller
         return redirect()->back()->with('success', 'Participante eliminado.');
     }
 
+    public function updateParticipant(Request $request, $id, $persona_id)
+    {
+        $autorizacion = Autorizacion::findOrFail($id);
+        $persona = Persona::findOrFail($persona_id);
+
+        $id_tp_relacion = $request->condicion;
+        $id_ubigeo = $request->Ubigeo_persona;
+        $direccion = $request->direccion_persona;
+
+        // If 'Menor', ubigeo and address are null per legacy logic
+        if ($id_tp_relacion == 1) {
+            $id_ubigeo = null;
+            $direccion = null;
+        }
+
+        // Update Persona metadata (not indexable identity fields for now as per plan)
+        $persona->update([
+            'edad' => $request->edad,
+            'tipo_edad' => $request->tipo_edad,
+            'id_nacionalidad' => $request->nacionalidad,
+            'id_ubigeo' => $id_ubigeo,
+            'direccion' => $direccion,
+        ]);
+
+        // Update pivot info
+        $autorizacion->personas()->updateExistingPivot($persona_id, [
+            'id_tp_relacion' => $id_tp_relacion,
+            'firma' => $request->firma
+        ]);
+
+        return redirect()->back()->with('success', 'Participante actualizado.');
+    }
+
     /**
      * Search for a persona by document number (AJAX).
      */

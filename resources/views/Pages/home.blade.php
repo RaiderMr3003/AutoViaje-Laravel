@@ -31,6 +31,10 @@
                             class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
                             Nueva Autorización
                         </a>
+                        <a href="{{ route('exportar.index') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Exportar
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -184,7 +188,15 @@
                                             </td>
                                             <td class="px-6 py-4">
                                                 <a href="{{ route('autorizaciones.edit', $auth->id_autorizacion) }}"
-                                                    class="text-[#f53003] hover:text-[#d92a02] font-medium transition-colors">Editar</a>
+                                                    class="text-blue-500 hover:text-blue-700 transition-colors"
+                                                    title="Editar Autorización">
+                                                    <svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty

@@ -32,6 +32,10 @@
                             class="inline-flex items-center px-1 pt-1 border-b-2 border-[#f53003] text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
                             Nueva Autorización
                         </a>
+                        <a href="{{ route('exportar.index') }}"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-[#706f6c] hover:text-[#1b1b18] hover:border-[#e3e3e0] transition-colors">
+                            Exportar
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -52,7 +56,8 @@
     <!-- Main Content -->
     <main class="flex-grow py-8">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+            <div
+                class="bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
                 <div class="px-6 py-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] bg-[#FAFAFA] dark:bg-[#1C1C1C]">
                     <h2 class="text-lg font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Registrar Autorización de Viaje
                     </h2>
@@ -229,7 +234,7 @@
                         <a href="{{ route('home') }}"
                             class="px-4 py-2 border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-md text-sm font-medium text-[#706f6c] hover:bg-[#FDFDFC] transition-colors">Cancelar</a>
                         <button type="submit"
-                            class="px-4 py-2 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#161615] rounded-md text-sm font-medium hover:bg-black dark:hover:bg-white transition-colors">
+                            class="px-4 py-2 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#161615] rounded-md text-sm font-medium hover:bg-black dark:hover:bg-white transition-colors cursor-pointer">
                             Guardar
                         </button>
                     </div>
